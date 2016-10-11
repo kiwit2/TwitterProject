@@ -4,7 +4,7 @@ var config = require("./config");
 var express = require("express");
 var app = express();
 
-var tweets = {"tweets": [],"tweet": []};
+var tweets = {"tweets": [],"tweet": [], "user": []};
 
 twit_bot = {
 	run : function() {
@@ -18,8 +18,10 @@ twit_bot = {
 				console.log(tweet.text);
 				if (tweet.coordinates.type === 'Point') {
 					console.log(tweet.coordinates);
+					console.log(tweet.user.name)
 					tweets.tweets.push(tweet.coordinates.coordinates);
 					tweets.tweet.push(tweet.text);
+					tweets.user.push(tweet.user.name);
 				} else {
 					console.log(tweet.coordinates.type + ' unimplemented.');
 				}
@@ -47,6 +49,7 @@ app.get('/tweets', function(req, res) {
 		res.end(JSON.stringify(tweets));
 		tweets.tweets = [];
 		tweets.tweet = [];
+		tweets.user = [];
 	});
 });
 
